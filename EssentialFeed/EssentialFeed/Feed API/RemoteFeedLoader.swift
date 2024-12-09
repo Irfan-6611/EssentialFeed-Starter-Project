@@ -18,7 +18,7 @@ public final class RemoteFeedLoader {
     
     public enum Error: Swift.Error {
         case connectivity
-        case invalidate
+        case invalidDate
     }
     
     public init(url: URL, client: HTTPClient) {
@@ -31,7 +31,7 @@ public final class RemoteFeedLoader {
             if response == nil {
                 complition(.connectivity)
             } else {
-                complition(.invalidate)
+                complition(.invalidDate)
             }
         }
     }
