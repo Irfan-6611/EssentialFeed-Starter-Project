@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol HTTPClient {
-    func get(from url: URL, complition: @escaping(Error?) -> Void)
+    func get(from url: URL, complition: @escaping((Error) -> Void))
 }
 
 public final class RemoteFeedLoader {
