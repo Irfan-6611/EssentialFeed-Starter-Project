@@ -51,7 +51,8 @@ class RemoteFeedLoaderTests: XCTestCase {
         sample.enumerated().forEach { index, code in
             
             expect(sut, toCompleteWith: .failiur(.invalidDate)) {
-                client.complete(withStatusCode: code, at: index)
+                let data = makeItemsJSON([])
+                client.complete(withStatusCode: code, data: data, at: index)
             }
         }
     }
@@ -83,10 +84,9 @@ class RemoteFeedLoaderTests: XCTestCase {
         
         let item2 = makeItems(id: UUID(), description: "a description", location: "Location", imageURL: URL(string: "https//:a-given-url.com")!)
                 
-        let itemsJSON = [ "items": [item1.jsonItem, item2.jsonItem]]
         let items = [item1.model, item2.model]
         expect(sut, toCompleteWith: .success(items)) {
-            let json = try! JSONSerialization.data(withJSONObject: itemsJSON)
+            let json = makeItemsJSON([item1.jsonItem, item2.jsonItem])
             client.complete(withStatusCode: 200, data: json)
         }
         
@@ -114,6 +114,11 @@ class RemoteFeedLoaderTests: XCTestCase {
         
        return (item, json)
         
+    }
+    
+    private func makeItemsJSON(_ items: [[String: Any]]) -> Data {
+        let json = [ "items": items]
+        return try! JSONSerialization.data(withJSONObject: json)
     }
     
     private func expect(
@@ -146,7 +151,7 @@ class RemoteFeedLoaderTests: XCTestCase {
             messages[index].complition(.failiur(error))
         }
         
-        func complete(withStatusCode code: Int, data: Data = Data(), at index: Int = 0) {
+        func complete(withStatusCode code: Int, data: Data, at index: Int = 0) {
             let response = HTTPURLResponse(
                 url: requestedURLs[index],
                 statusCode: code,
