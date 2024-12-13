@@ -10,29 +10,29 @@ import EssentialFeed
 
 class URLSessionHTTPClientTests: XCTestCase {
     
-    override class func setUp() {
+    override func setUp() {
         URLProtocolStub.startInterceptingRequest()
     }
     
-    override class func tearDown() {
+    override func tearDown() {
         URLProtocolStub.stopInterceptingRequest()
     }
     
-//    func test_getFromURL_performGETRequestWithURL() {
-//        let url = anyURL()
-//        
-//        let exp = expectation(description: "wait for request")
-//        
-//        URLProtocolStub.observeRequests { request in
-//            XCTAssertEqual(request.httpMethod, "GET")
-//            XCTAssertEqual(request.url, url)
-//            exp.fulfill()
-//        }
-//        
-//        makeSUT().get(from: url) { _ in }
-//        
-//        wait(for: [exp], timeout: 1.0)
-//    }
+    func test_getFromURL_performGETRequestWithURL() {
+        let url = anyURL()
+        
+        let exp = expectation(description: "wait for request")
+        
+        URLProtocolStub.observeRequests { request in
+            XCTAssertEqual(request.httpMethod, "GET")
+            XCTAssertEqual(request.url, url)
+            exp.fulfill()
+        }
+        
+        makeSUT().get(from: url) { _ in }
+        
+        wait(for: [exp], timeout: 1.0)
+    }
     
     func test_getFromURL_failsOnRequestError() {
         let receivedError = resultErrorFor(data: nil, response: nil, error: anyNSError())
