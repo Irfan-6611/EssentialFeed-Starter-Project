@@ -11,10 +11,14 @@ import EssentialFeed
 class URLSessionHTTPClientTests: XCTestCase {
     
     override func setUp() {
+        super.setUp()
+        
         URLProtocolStub.startInterceptingRequest()
     }
     
     override func tearDown() {
+        super.tearDown()
+        
         URLProtocolStub.stopInterceptingRequest()
     }
     
@@ -178,7 +182,6 @@ private class URLProtocolStub: URLProtocol {
     }
     
     override class func canInit(with request: URLRequest) -> Bool {
-        requestObserver?(request)
         return true
     }
     
@@ -187,7 +190,10 @@ private class URLProtocolStub: URLProtocol {
     }
     
     override func startLoading() {
-        
+        if let requestObserver = URLProtocolStub.requestObserver {
+            client?.urlProtocolDidFinishLoading(self)
+            return requestObserver(request)
+        }
         if let data = URLProtocolStub.stub?.data {
             client?.urlProtocol(self, didLoad: data)
         }
