@@ -42,6 +42,7 @@
 				FeedItemsMapper.swift,
 				HTTPClient.swift,
 				RemoteFeedLoader.swift,
+				URLSessionHTTPClient.swift,
 			);
 			target = 080EDEF021B6DA7E00813479 /* EssentialFeed */;
 		};
