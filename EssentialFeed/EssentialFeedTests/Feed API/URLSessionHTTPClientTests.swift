@@ -16,14 +16,14 @@ class URLSessionHTTPClient: HTTPClient {
     }
     
     struct UnexpectedValuesRepresentation: Error {}
-    func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void) {
+    func get(from url: URL, complition: @escaping((HTTPClientResult) -> Void)) {
         session.dataTask(with: url) { data, response, error in
             if let error = error {
-                completion(.failiur(error))
+                complition(.failiur(error))
             } else if let data = data, let response = response as? HTTPURLResponse {
-                completion(.success(data, response))
+                complition(.success(data, response))
             }else {
-                completion(.failiur(UnexpectedValuesRepresentation()))
+                complition(.failiur(UnexpectedValuesRepresentation()))
             }
         }.resume()
     }
@@ -99,7 +99,7 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     // MARK: - Helpers
 
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> URLSessionHTTPClient {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> HTTPClient {
         let sut = URLSessionHTTPClient()
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
