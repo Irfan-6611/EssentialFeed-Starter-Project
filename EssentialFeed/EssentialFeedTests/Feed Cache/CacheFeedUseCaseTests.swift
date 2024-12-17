@@ -80,13 +80,13 @@ final class CacheFeedUseCaseTests: XCTestCase {
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
 
-        sut.save([anyFeedItem(), anyFeedItem()]) {_ in }
+        sut.save([uniqueItem(), uniqueItem()]) {_ in }
         
         XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
     }
     
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
-        let items = [anyFeedItem(), anyFeedItem()]
+        let items = [uniqueItem(), uniqueItem()]
         let (sut, store) = makeSUT()
         let deletionError = anyNSError()
 
@@ -98,7 +98,7 @@ final class CacheFeedUseCaseTests: XCTestCase {
         
     func test_save_requestsNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
         let timestamp = Date()
-        let items = [anyFeedItem(), anyFeedItem()]
+        let items = [uniqueItem(), uniqueItem()]
         let (sut, store) = makeSUT(currentData: {timestamp})
 
         sut.save(items) {_ in }
@@ -108,55 +108,31 @@ final class CacheFeedUseCaseTests: XCTestCase {
     }
     
     func test_save_failsOnDeletionError() {
-        let items = [anyFeedItem(), anyFeedItem()]
         let (sut, store) = makeSUT()
         let deletionError = anyNSError()
 
-        var receivedError: Error?
-        let exp = expectation(description: "wait for save completion")
-        sut.save(items) { error in
-            receivedError = error
-            exp.fulfill()
+        expect(sut, toCompleteWithError: deletionError) {
+            store.completeDeletion(with: deletionError)
         }
-        store.completeDeletion(with: deletionError)
-        wait(for: [exp], timeout: 1.0)
-        
-        XCTAssertEqual(receivedError as NSError?, deletionError)
     }
 
     func test_save_failsOnInsertionError() {
-        let items = [anyFeedItem(), anyFeedItem()]
         let (sut, store) = makeSUT()
         let insertionError = anyNSError()
-
-        var receivedError: Error?
-        let exp = expectation(description: "wait for save completion")
-        sut.save(items) { error in
-            receivedError = error
-            exp.fulfill()
-        }
-        store.completeDeletionSuccessfully()
-        store.completeInsertion(with: insertionError)
-        wait(for: [exp], timeout: 1.0)
         
-        XCTAssertEqual(receivedError as NSError?, insertionError)
+        expect(sut, toCompleteWithError: insertionError) {
+            store.completeDeletionSuccessfully()
+            store.completeInsertion(with: insertionError)
+        }
     }
     
     func test_save_succeedsOnSuccessfulCacheInsertion() {
-        let items = [anyFeedItem(), anyFeedItem()]
         let (sut, store) = makeSUT()
 
-        var receivedError: Error?
-        let exp = expectation(description: "wait for save completion")
-        sut.save(items) { error in
-            receivedError = error
-            exp.fulfill()
+        expect(sut, toCompleteWithError: nil) {
+            store.completeDeletionSuccessfully()
+            store.completeInsertionSuccessfully()
         }
-        store.completeDeletionSuccessfully()
-        store.completeInsertionSuccessfully()
-        wait(for: [exp], timeout: 1.0)
-        
-        XCTAssertNil(receivedError)
     }
 
 
@@ -172,7 +148,24 @@ final class CacheFeedUseCaseTests: XCTestCase {
         return (sut, store)
     }
     
-    private func anyFeedItem() -> FeedItem {
+    private func expect(_ sut: LocalFeedLoader, toCompleteWithError expectedError: NSError?, when action: () -> Void, file: StaticString = #filePath,
+                        line: UInt = #line) {
+        
+        let exp = expectation(description: "wait for save completion")
+
+        var receivedError: Error?
+        sut.save([uniqueItem()]) { error in
+            receivedError = error
+            exp.fulfill()
+        }
+
+        action()
+        wait(for: [exp], timeout: 1.0)
+        
+        XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
+    }
+    
+    private func uniqueItem() -> FeedItem {
         return FeedItem(id: UUID(), description: "Any Desc", location: "Any Location", imageURL: anyURL())
     }
     
