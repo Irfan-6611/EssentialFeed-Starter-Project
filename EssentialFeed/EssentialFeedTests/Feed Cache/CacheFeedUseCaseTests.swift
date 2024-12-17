@@ -19,7 +19,7 @@ class LocalFeedLoader {
 
 final class CacheFeedUseCaseTests: XCTestCase {
     
-    func test_init() {
+    func test_init_doesNotDeleteCacheUponCreation() {
         let store = FeedStore()
         _ = LocalFeedLoader(store: store)
         
