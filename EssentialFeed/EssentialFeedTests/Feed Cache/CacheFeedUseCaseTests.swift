@@ -102,13 +102,9 @@ final class CacheFeedUseCaseTests: XCTestCase {
         }
     }
 
-
-
     // MARK: - Helpers
     
-    class FeedStoreSpy: FeedStore {
-        typealias DeletionCompletion = (Error?) -> Void
-        typealias InsertionCompletion = (Error?) -> Void
+    private class FeedStoreSpy: FeedStore {
 
         private(set) var receivedMessages = [ReceivedMessage]()
         private var deletionCompletions = [DeletionCompletion]()
@@ -119,15 +115,15 @@ final class CacheFeedUseCaseTests: XCTestCase {
             case insert([FeedItem], Date)
         }
 
-        func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-            deletionCompletions.append(completion)
-            receivedMessages.append(.deleteCachedFeed)
-        }
-        
         func completeDeletion(with error: Error, at index: Int = 0) {
             deletionCompletions[index](error)
         }
         
+        func deleteCachedFeed(completion: @escaping DeletionCompletion) {
+            deletionCompletions.append(completion)
+            receivedMessages.append(.deleteCachedFeed)
+        }
+                
         func completeDeletionSuccessfully(at index: Int = 0) {
             deletionCompletions[index](nil)
         }
