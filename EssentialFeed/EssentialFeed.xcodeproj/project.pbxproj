@@ -49,6 +49,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CacheFeedUseCaseTests.swift,
+				Helper/FeedCacheTestHelpers.swift,
 				Helper/FeedStoreSpy.swift,
 				LoadFeedFromCacheUseCaseTests.swift,
 				ValidateFeedCacheUseCaseTests.swift,
@@ -67,6 +68,7 @@
 		B86324002D0DC45B00D08D90 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				SharedTestHelpers.swift,
 				"XCTestCase+MemoryLeakTracking.swift",
 			);
 			target = B86323F22D0DC3FA00D08D90 /* EssentialFeedAPIEndToEndTests */;
