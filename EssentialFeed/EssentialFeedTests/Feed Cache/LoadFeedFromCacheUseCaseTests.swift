@@ -15,6 +15,14 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
         
         XCTAssertEqual(store.receivedMessages, [])
     }
+    
+    func test_load_requestsCacheRetrieval() {
+        let (sut, store) = makeSUT()
+        
+        sut.load()
+        
+        XCTAssertEqual(store.receivedMessages, [.retrive])
+    }
 
     // MARK: - Helpers
 
@@ -26,5 +34,5 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, store)
     }
-        
+
 }
