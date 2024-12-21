@@ -21,7 +21,7 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
         
         sut.load { _ in }
         
-        XCTAssertEqual(store.receivedMessages, [.retrive])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
     func test_load_failedOnRetrievalError() {
@@ -81,7 +81,7 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
         sut.load { _ in }
         store.completeRetrieval(with: anyNSError())
 
-        XCTAssertEqual(store.receivedMessages, [.retrive])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
     func test_load_hasNoSideEffectsOnEmptyCache() {
@@ -90,7 +90,7 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
         sut.load { _ in }
         store.completeRetrievalWithEmptyCache()
 
-        XCTAssertEqual(store.receivedMessages, [.retrive])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
     func test_load_hasNoSideEffectsOnLessThanSevenDaysOldCache() {
@@ -102,7 +102,7 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
         sut.load {_ in}
         store.completeRetrieval(with: feed.local, timestamp: lessThanSevenDaysOldTimestamp)
         
-        XCTAssertEqual(store.receivedMessages, [.retrive])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
 
     func test_load_hasNoSideEffectsOnSevenDaysOldCache() {
@@ -114,7 +114,7 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
         sut.load {_ in}
         store.completeRetrieval(with: feed.local, timestamp: sevenDaysOldTimestamp)
         
-        XCTAssertEqual(store.receivedMessages, [.retrive])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
 
     func test_load_hasNoSideEffectsOnMoreThanSevenDaysOldCache() {
@@ -126,7 +126,7 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
         sut.load {_ in}
         store.completeRetrieval(with: feed.local, timestamp: moreThanSevenDaysOldTimestamp)
         
-        XCTAssertEqual(store.receivedMessages, [.retrive])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
 
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
