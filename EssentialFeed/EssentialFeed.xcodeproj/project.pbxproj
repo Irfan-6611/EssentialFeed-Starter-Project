@@ -49,6 +49,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CacheFeedUseCaseTests.swift,
+				CodableFeedStoreTests.swift,
 				Helper/FeedCacheTestHelpers.swift,
 				Helper/FeedStoreSpy.swift,
 				LoadFeedFromCacheUseCaseTests.swift,
