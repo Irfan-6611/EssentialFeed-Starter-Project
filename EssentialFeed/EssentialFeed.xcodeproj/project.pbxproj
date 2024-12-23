@@ -55,6 +55,7 @@
 				Helper/FeedStoreSpy.swift,
 				LoadFeedFromCacheUseCaseTests.swift,
 				ValidateFeedCacheUseCaseTests.swift,
+				"XCTestCase+FailableDeleteFeedStoreSpecs.swift",
 				"XCTestCase+FailableInsertFeedStoreSpecs.swift",
 				"XCTestCase+FailableRetrieveFeedStoreSpecs.swift",
 				"XCTestCase+FeedStoreSpecs.swift",
