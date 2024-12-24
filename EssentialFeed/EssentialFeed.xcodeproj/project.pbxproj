@@ -50,6 +50,7 @@
 			membershipExceptions = (
 				CacheFeedUseCaseTests.swift,
 				CodableFeedStoreTests.swift,
+				CoreDataFeedStoreTests.swift,
 				FeedStoreSpecs/FeedStoreSpecs.swift,
 				"FeedStoreSpecs/XCTestCase+FailableDeleteFeedStoreSpecs.swift",
 				"FeedStoreSpecs/XCTestCase+FailableInsertFeedStoreSpecs.swift",
