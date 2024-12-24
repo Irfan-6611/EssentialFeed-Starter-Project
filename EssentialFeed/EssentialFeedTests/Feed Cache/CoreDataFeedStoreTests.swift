@@ -62,9 +62,9 @@ final class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
         
     }
     
-    private func makeSUT(file: StaticString = #filePath,
-                         line: UInt = #line) -> CoreDataFeedStore {
-        let sut = CoreDataFeedStore()
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> FeedStore {
+        let storeBundle = Bundle(for: CoreDataFeedStore.self)
+        let sut = try! CoreDataFeedStore(bundle: storeBundle)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
     }
