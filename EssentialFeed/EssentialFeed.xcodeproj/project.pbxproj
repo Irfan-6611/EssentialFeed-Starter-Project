@@ -57,7 +57,15 @@
 		B84CF80C2D1B6C58008A7CCA /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				SharedTestHelpers.swift,
 				"XCTestCase+MemoryLeakTracking.swift",
+			);
+			target = B84CF8002D1B546C008A7CCA /* EssentialFeedCacheIntegrationTests */;
+		};
+		B84CF80E2D1B705C008A7CCA /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Helper/FeedCacheTestHelpers.swift,
 			);
 			target = B84CF8002D1B546C008A7CCA /* EssentialFeedCacheIntegrationTests */;
 		};
@@ -118,7 +126,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B84CF8022D1B546C008A7CCA /* EssentialFeedCacheIntegrationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EssentialFeedCacheIntegrationTests; sourceTree = "<group>"; };
-		B8591D9B2D118C6C00A6C67B /* Feed Cache */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B8591D9E2D118CD600A6C67B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Feed Cache"; sourceTree = "<group>"; };
+		B8591D9B2D118C6C00A6C67B /* Feed Cache */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B8591D9E2D118CD600A6C67B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, B84CF80E2D1B705C008A7CCA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Feed Cache"; sourceTree = "<group>"; };
 		B8591DBD2D133D2A00A6C67B /* Feed Cache */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B8591DC12D133D4300A6C67B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Feed Cache"; sourceTree = "<group>"; };
 		B86323F42D0DC3FA00D08D90 /* EssentialFeedAPIEndToEndTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EssentialFeedAPIEndToEndTests; sourceTree = "<group>"; };
 		B88C76852D0C211300BAE39F /* Helper */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B86324002D0DC45B00D08D90 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, B84CF80C2D1B6C58008A7CCA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Helper; sourceTree = "<group>"; };
