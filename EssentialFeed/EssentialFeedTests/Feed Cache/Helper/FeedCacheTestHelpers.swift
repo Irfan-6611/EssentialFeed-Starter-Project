@@ -15,7 +15,7 @@ func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedImage]) {
 }
 
 func uniqueImage() -> FeedImage {
-    return FeedImage(id: UUID(), description: "Any Desc", location: "Any Location", url: anyURL())
+    return FeedImage(id: UUID(), description: "Any", location: "Any", url: anyURL())
 }
 
 extension Date {
