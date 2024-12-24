@@ -70,6 +70,7 @@
 				FeedStore.swift,
 				Infrastructure/Codable/CodableFeedStore.swift,
 				Infrastructure/CoreData/CoreDataFeedStore.swift,
+				Infrastructure/CoreData/CoreDataHelper.swift,
 				Infrastructure/CoreData/FeedStore.xcdatamodeld,
 				LocalFeedImage.swift,
 				LocalFeedLoader.swift,
