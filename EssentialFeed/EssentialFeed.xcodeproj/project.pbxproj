@@ -67,10 +67,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CodableFeedStore.swift,
-				CoreDataFeedStore.swift,
 				FeedCachePolicy.swift,
 				FeedStore.swift,
-				FeedStore.xcdatamodeld,
+				Infrastructure/CoreData/CoreDataFeedStore.swift,
+				Infrastructure/CoreData/FeedStore.xcdatamodeld,
 				LocalFeedImage.swift,
 				LocalFeedLoader.swift,
 			);
