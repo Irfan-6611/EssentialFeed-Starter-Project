@@ -180,8 +180,8 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
             return messages.map { $0.url }
         }
         
-        func get(from url: URL, complition: @escaping(HTTPClient.Result) -> Void) {
-            messages.append((url, complition))
+        func get(from url: URL, completion: @escaping(HTTPClient.Result) -> Void) {
+            messages.append((url, completion))
         }
         
         func complete(with error: Error, at index: Int = 0) {
