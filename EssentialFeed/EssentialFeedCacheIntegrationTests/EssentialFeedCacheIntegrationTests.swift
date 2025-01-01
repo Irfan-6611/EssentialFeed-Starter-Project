@@ -69,7 +69,7 @@ final class EssentialFeedCacheIntegrationTests: XCTestCase {
             case let .success(feedImage):
                 XCTAssertEqual(feedImage, expectedFeed, file: file, line: line)
                 
-            case let .failiur(error):
+            case let . failure(error):
                 XCTFail("Expected successful feed result, got \(error) instead", file: file, line: line)
             }
             

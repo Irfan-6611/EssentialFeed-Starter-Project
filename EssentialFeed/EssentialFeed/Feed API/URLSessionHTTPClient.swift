@@ -15,14 +15,14 @@ public class URLSessionHTTPClient: HTTPClient {
     }
     
     private struct UnexpectedValuesRepresentation: Error {}
-    public func get(from url: URL, complition: @escaping((HTTPClientResult) -> Void)) {
+    public func get(from url: URL, complition: @escaping((HTTPClient.Result) -> Void)) {
         session.dataTask(with: url) { data, response, error in
             if let error = error {
-                complition(.failiur(error))
+                complition(.failure(error))
             } else if let data = data, let response = response as? HTTPURLResponse {
-                complition(.success(data, response))
+                complition(.success((data, response)))
             }else {
-                complition(.failiur(UnexpectedValuesRepresentation()))
+                complition(.failure(UnexpectedValuesRepresentation()))
             }
         }.resume()
     }

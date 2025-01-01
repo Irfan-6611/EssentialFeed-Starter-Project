@@ -38,7 +38,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
         
-        expect(sut, toCompleteWith: failiur(.connectivity)) {
+        expect(sut, toCompleteWith:  failure(.connectivity)) {
             let clientError = NSError(domain: "Test", code: 0)
             client.complete(with: clientError)
         }
@@ -50,7 +50,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
         let sample = [199, 201, 300, 400, 500]
         sample.enumerated().forEach { index, code in
             
-            expect(sut, toCompleteWith: failiur(.invalidDate)) {
+            expect(sut, toCompleteWith:  failure(.invalidDate)) {
                 let data = makeItemsJSON([])
                 client.complete(withStatusCode: code, data: data, at: index)
             }
@@ -60,7 +60,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     func test_load_deliverErrorOn200HTTPResponseWithInvalidJSON() {
         let (sut, client) = makeSUT()
                 
-        expect(sut, toCompleteWith: failiur(.invalidDate)) {
+        expect(sut, toCompleteWith:  failure(.invalidDate)) {
             let inValidJson = Data("Hello world".utf8)
             client.complete(withStatusCode: 200, data: inValidJson)
         }
@@ -139,8 +139,8 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
         return try! JSONSerialization.data(withJSONObject: json)
     }
     
-    private func failiur(_ error: RemoteFeedLoader.Error) -> RemoteFeedLoader.Result {
-        return .failiur(error)
+    private func failure(_ error: RemoteFeedLoader.Error) -> RemoteFeedLoader.Result {
+        return .failure(error)
     }
     
     private func expect(
@@ -156,7 +156,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
             case let(.success(receivedItems), .success(expectedItems)):
                 XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
                 
-            case let(.failiur(receivedError as RemoteFeedLoader.Error), .failiur(expectedError as RemoteFeedLoader.Error)):
+            case let(.failure(receivedError as RemoteFeedLoader.Error), .failure(expectedError as RemoteFeedLoader.Error)):
                 XCTAssertEqual(receivedError, expectedError, file: file, line: line)
                 
             default:
@@ -174,18 +174,18 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     }
     
     private class HTTPClientSpy: HTTPClient {
-        private var messages = [(url: URL, complition: (HTTPClientResult) -> Void)]()
+        private var messages = [(url: URL, complition: (HTTPClient.Result) -> Void)]()
         
         var requestedURLs: [URL] {
             return messages.map { $0.url }
         }
         
-        func get(from url: URL, complition: @escaping(HTTPClientResult) -> Void) {
+        func get(from url: URL, complition: @escaping(HTTPClient.Result) -> Void) {
             messages.append((url, complition))
         }
         
         func complete(with error: Error, at index: Int = 0) {
-            messages[index].complition(.failiur(error))
+            messages[index].complition(. failure(error))
         }
         
         func complete(withStatusCode code: Int, data: Data, at index: Int = 0) {
@@ -195,7 +195,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
                 httpVersion: nil,
                 headerFields: nil
             )!
-            messages[index].complition(.success(data, response))
+            messages[index].complition(.success((data, response)))
         }
 
     }
