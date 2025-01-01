@@ -8,7 +8,7 @@
 import CoreData
 
 @objc(ManagedFeedImage)
-internal class ManagedFeedImage: NSManagedObject {
+class ManagedFeedImage: NSManagedObject {
     @NSManaged var id: UUID
     @NSManaged var imageDescription: String?
     @NSManaged var location: String?
@@ -21,7 +21,7 @@ extension ManagedFeedImage {
         return LocalFeedImage(id: id, description: imageDescription, location: location, url: url)
     }
     
-    internal static func images(from loaclfeed: [LocalFeedImage], in context: NSManagedObjectContext) -> NSOrderedSet {
+    static func images(from loaclfeed: [LocalFeedImage], in context: NSManagedObjectContext) -> NSOrderedSet {
         NSOrderedSet(array: loaclfeed.map { local in
             let managed = ManagedFeedImage(context: context)
             managed.id = local.id
