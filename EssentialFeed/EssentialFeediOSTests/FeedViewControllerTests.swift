@@ -78,15 +78,15 @@ final class FeedViewControllerTests: XCTestCase {
         let (sut, _) = makeSUT()
         
         sut.simulateAppearance()
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, true)
         
         sut.refreshControl?.endRefreshing()
         sut.simulateUserInitiatedFeedReload()
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, true)
         
         sut.refreshControl?.endRefreshing()
         sut.simulateAppearance()
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, false)
     }
     
     func test_viewDidLoad_hidesLoadingIndicatorOnLoaderCompletion() {
@@ -95,7 +95,7 @@ final class FeedViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
         loader.completeFeedLoading()
         
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, false)
     }
     
     func test_userInitiatedFeedReload_showsLoadingIndicator() {
@@ -103,7 +103,7 @@ final class FeedViewControllerTests: XCTestCase {
         
         sut.simulateAppearance()
         
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, true)
     }
     
     func test_userInitiatedFeedReload_hidesLoadingIndicatorOnLoaderCompletion() {
@@ -112,7 +112,7 @@ final class FeedViewControllerTests: XCTestCase {
         sut.simulateUserInitiatedFeedReload()
         loader.completeFeedLoading()
         
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, false)
     }
     
     //MARK: - Helper
@@ -144,18 +144,22 @@ final class FeedViewControllerTests: XCTestCase {
 }
 
 private extension FeedViewController {
+    var isShowingLoadingIndicator: Bool {
+        return refreshControl?.isRefreshing == true
+    }
+    
     func simulateUserInitiatedFeedReload() {
         refreshControl?.simulatePullToRefresh()
     }
-    
+
     func simulateAppearance() {
         if !isViewLoaded {
-            loadViewIfNeeded() // ViewDidLoad
+            loadViewIfNeeded()
             replaceRefreshControlWithFakeForiOS17Support()
         }
         
-        beginAppearanceTransition(true, animated: false) // viewWillAppear
-        endAppearanceTransition()// isViewAppearing+ViewDidAppear
+        beginAppearanceTransition(true, animated: false)
+        endAppearanceTransition()
     }
     
     func replaceRefreshControlWithFakeForiOS17Support() {
